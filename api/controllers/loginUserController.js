@@ -76,18 +76,21 @@ const loginUser = asyncHandler(async (req, res) => {
 
   // Access token save to cookie memory.
   res
-    .cookie("accessToken", accessToken)
-    .status(200)
+    .cookie("accessToken", accessToken, {
+      httpOnly: false,
+      secure: false,
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    })
     .json({ token: accessToken, user: isUser });
 });
 
 /**
- * @desc GET LoginUser.
+ * @desc GET LoginUserData.
  * @route GET /auth/me
  * @access PRIVATE
  */
 const me = (req, res) => {
-  res.status(200).json({ me: req.me });
+  res.status(200).json({ user: req.me });
 };
 
 /**

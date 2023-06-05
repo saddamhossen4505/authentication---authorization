@@ -4,21 +4,21 @@ const User = require("../models/UserModels");
 
 // Create AuthorizationMiddleware.
 const authorizationMiddleware = (req, res, next) => {
-  // First check cookies.
-  const cookies = req.cookies;
+  // // First check cookies.
+  // const cookies = req.cookies;
 
-  // Get token from cookie.
-  const cookieToken = cookies.accessToken;
+  // // Get token from cookie.
+  // const cookieToken = cookies.accessToken;
 
-  if (!cookieToken) {
-    return res.status(400).json({ message: "Please login first." });
-  }
+  // if (!cookieToken) {
+  //   return res.status(400).json({ message: "Please login first." });
+  // }
 
   // Check authHeaders.
   const authHeader = req.headers.authorization || req.headers.Authorization;
 
   if (!authHeader) {
-    return res.status(400).json({ message: "Token set authHeaders." });
+    return res.status(400).json({ message: "Unauthorized." });
   }
 
   // Get token.

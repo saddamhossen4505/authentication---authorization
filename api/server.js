@@ -11,24 +11,23 @@ const userLoginRoute = require("./routes/userLoginRoute");
 
 // Init Express.
 const app = express();
-app.use(cookieParser());
 
 // Environment Variable.
 dotenv.config();
 const PORT = process.env.APP_PORT || 4000;
 
 // Middlewares.
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors());
-
-// Error Handler.
-app.use(errorHandler);
+app.use(cookieParser());
+app.use(cors({ origin: ["http://localhost:3000"], credentials: true }));
 
 // Routes.
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/auth", userLoginRoute);
+
+// Error Handler.
+app.use(errorHandler);
 
 // Listen server.
 app.listen(PORT, () => {

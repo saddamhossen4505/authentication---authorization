@@ -2,20 +2,35 @@ import { createBrowserRouter } from "react-router-dom";
 import Login from "../components/Auth/Login";
 import Register from "../components/Auth/Register";
 import Profile from "../components/Profile/Profile";
+import LoginRoutes from "../middlewares/LoginRoutes";
+import LogoutRoutes from "../middlewares/LogoutRoutes";
 
 // Create Router
 const publicRouter = createBrowserRouter([
   {
     path: "/login",
-    element: <Login />,
+    element: (
+      <LogoutRoutes>
+        <Login />
+      </LogoutRoutes>
+    ),
   },
   {
     path: "/register",
-    element: <Register />,
+    element: (
+      <LogoutRoutes>
+        <Register />
+      </LogoutRoutes>
+    ),
   },
+
   {
     path: "/",
-    element: <Profile />,
+    element: (
+      <LoginRoutes>
+        <Profile />
+      </LoginRoutes>
+    ),
   },
 ]);
 

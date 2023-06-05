@@ -4,6 +4,8 @@ import {
   USER_REGISTER_FAIELD,
   USER_REGISTER_SUCCESS,
   USER_LOGOUT_SUCCESS,
+  TOKEN_USER_SUCCESS,
+  TOKEN_USER_FAIELD,
 } from "./actionTypes";
 import initialState from "./initialState";
 
@@ -42,6 +44,20 @@ const authReducer = (state = initialState, { type, payload }) => {
         message: payload,
         loginState: false,
         user: null,
+      });
+
+    case TOKEN_USER_SUCCESS:
+      return (state = {
+        ...state,
+        message: "You are logedin",
+        user: payload,
+        loginState: true,
+      });
+
+    case TOKEN_USER_FAIELD:
+      return (state = {
+        ...state,
+        message: payload,
       });
 
     default:

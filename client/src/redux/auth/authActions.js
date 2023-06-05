@@ -6,6 +6,8 @@ import {
   USER_LOGIN_FAIELD,
   USER_LOGOUT_SUCCESS,
   USER_LOGOUT_FAIELD,
+  TOKEN_USER_SUCCESS,
+  TOKEN_USER_FAIELD,
 } from "./actionTypes";
 
 /**
@@ -15,7 +17,7 @@ export const userRegisterAction =
   ({ input, setInput }) =>
   async (dispatch) => {
     try {
-      axios
+      await axios
         .post("http://localhost:5050/api/v1/auth/register", input)
         .then((res) => {
           setInput({
@@ -34,7 +36,7 @@ export const userRegisterAction =
     } catch (error) {
       dispatch({
         type: USER_REGISTER_FAIELD,
-        payload: err.response.data.message,
+        payload: error.message,
       });
     }
   };
@@ -47,9 +49,10 @@ export const userLoginAction =
   async (dispatch) => {
     try {
       await axios
-        .post("http://localhost:5050/api/v1/auth/login", input)
+        .post("http://localhost:5050/api/v1/auth/login", input, {
+          withCredentials: true,
+        })
         .then((res) => {
-          console.log(res.data);
           setInput({
             email: "",
             password: "",
@@ -66,7 +69,7 @@ export const userLoginAction =
     } catch (error) {
       dispatch({
         type: USER_LOGIN_FAIELD,
-        payload: err.response.data.message,
+        payload: error.message,
       });
     }
   };
@@ -78,8 +81,14 @@ export const userLogoutAction =
   ({ navigate }) =>
   async (dispatch) => {
     try {
-      axios
-        .post("http://localhost:5050/api/v1/auth/logout")
+      await axios
+        .post(
+          "http://localhost:5050/api/v1/auth/logout",
+          {},
+          {
+            withCredentials: true,
+          }
+        )
         .then((res) => {
           dispatch({ type: USER_LOGOUT_SUCCESS, payload: res.data.message });
           navigate("/login");
@@ -93,7 +102,37 @@ export const userLogoutAction =
     } catch (error) {
       dispatch({
         type: USER_LOGOUT_FAIELD,
-        payload: err.response.data.message,
+        payload: error.message,
+      });
+    }
+  };
+
+/**
+ *  User Login Action.
+ */
+export const tokenUserAction =
+  ({ token }) =>
+  async (dispatch) => {
+    try {
+      axios
+        .get("http://localhost:5050/api/v1/auth/me", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          dispatch({ type: TOKEN_USER_SUCCESS, payload: res.data.user });
+        })
+        .catch((error) => {
+          dispatch({
+            type: USER_LOGOUT_SUCCESS,
+            payload: error.response.data.message,
+          });
+        });
+    } catch (error) {
+      dispatch({
+        type: USER_LOGOUT_SUCCESS,
+        payload: error.message,
       });
     }
   };
