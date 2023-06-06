@@ -1,10 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import babu2 from "../../assets/images/02.jpg";
 import { React, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userRegisterAction } from "../../redux/auth/authActions";
 
 const Register = () => {
+  const navigate = useNavigate();
   const { message } = useSelector((state) => state.auth);
   const [input, setInput] = useState({
     name: "",
@@ -27,6 +28,7 @@ const Register = () => {
   const handleRegisterForm = async (e) => {
     e.preventDefault();
     dispatch(userRegisterAction({ input, setInput }));
+    navigate("/login");
   };
 
   return (
