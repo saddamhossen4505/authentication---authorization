@@ -7,7 +7,6 @@ import {
   USER_LOGOUT_SUCCESS,
   USER_LOGOUT_FAIELD,
   TOKEN_USER_SUCCESS,
-  TOKEN_USER_FAIELD,
 } from "./actionTypes";
 
 /**

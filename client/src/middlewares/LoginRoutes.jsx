@@ -1,10 +1,10 @@
 import { useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 
-const LoginRoutes = ({ children }) => {
+const LoginRoutes = () => {
   const { loginState } = useSelector((state) => state.auth);
 
-  return loginState ? children : <Navigate to={"/login"} />;
+  return loginState ? <Outlet /> : <Navigate to={"/login"} />;
 };
 
 export default LoginRoutes;

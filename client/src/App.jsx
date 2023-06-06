@@ -1,10 +1,9 @@
 import { RouterProvider } from "react-router-dom";
-import publicRouter from "./routes/publicRoute";
 import Cookie from "js-cookie";
 import { useEffect } from "react";
-import axios from "axios";
 import { useDispatch } from "react-redux";
 import { tokenUserAction } from "./redux/auth/authActions";
+import router from "./routes/routes";
 
 function App() {
   const token = Cookie.get("accessToken");
@@ -17,7 +16,7 @@ function App() {
 
   return (
     <>
-      <RouterProvider router={publicRouter} />
+      <RouterProvider router={router} />
     </>
   );
 }
